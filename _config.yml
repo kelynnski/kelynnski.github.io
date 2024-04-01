@@ -84,10 +84,10 @@ author:
   avatar           : "profile.png"
   bio              : "I am about to complete my MS in Human Language Technology from the University of Arizona. \n\n My experience includes a wide range of NLP topics; gained from both academic projects and practical applications."
   location         : "Phoenix, AZ"
-  employer         : "EdPlus at Arizona State University"
+  #employer         : "EdPlus at Arizona State University"
   #pubmed           : "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
   #googlescholar    : "http://yourfullgooglescholarurl.com"
-  email            : "kelynn dot nowakowski at gmail dot com"
+  email            : "kelynn.nowakowski@gmail.com"
   #researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
   #uri              :
   #bitbucket        :
@@ -102,7 +102,7 @@ author:
   #instagram        :
   #impactstory      : #"https://profiles.impactstory.org/u/xxxx-xxxx-xxxx-xxxx"
   #lastfm           :
-  linkedin         : "https://www.linkedin.com/in/kelynn-now/"
+  linkedin         : "kelynn-now"
   #orcid            : "http://orcid.org/yourorcidurl"
   #pinterest        :
   #soundcloud       :
