@@ -1,10 +1,10 @@
 ---
 layout: archive
-title: "CV"
-permalink: /cv/
+title: "Resume"
+permalink: /resume/
 author_profile: true
 redirect_from:
-  - /resume
+  - /cv
 ---
 
-You can view or download my Resume here: [Kelynn Nowakowski Resume](files/Kelynn Nowakowski Resume.pdf)
+You can view or download my Resume here: [Kelynn Nowakowski Resume](Kelynn Nowakowski Resume.pdf)
