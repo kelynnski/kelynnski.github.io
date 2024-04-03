@@ -7,4 +7,4 @@ redirect_from:
   - /resume
 ---
 
-You can view or download my Resume here: [Kelynn Nowakowski Resume](/home/kelynn/portfolio repo/kelynnski.github.io/files/Kelynn Nowakowski Resume.pdf)
+You can view or download my Resume here: [Kelynn Nowakowski Resume](files/Kelynn Nowakowski Resume.pdf)
