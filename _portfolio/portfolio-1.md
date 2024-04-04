@@ -172,7 +172,6 @@ course_code = df.iloc[-1, 6]
 _Harmonization snippet (note: generation\_bot.chatbot() is the chatbot defined to return class information including the generated class description):_
 ```python
 #Function to harmonize descriptions
-
 def harmonize(descriptions):
    ai_gen_bot = harmonizer_bot.chatbot()
    ai_gen_bot.temperature = 1
@@ -455,7 +454,7 @@ class chatbot:
        instruction += "Do not say anything about being an AI or a language model in your responses. "
        instruction += "Do not say anything about getting information from the available sources, as that sounds like a robot and you are a human."
        instruction += "\nToday is " + date.today().strftime("%B %d, %Y") + "."
-       instruction += " The current semester is Spring 2023."
+       instruction += " The current semester is Spring 2024."
 
        response = "Please enter your question."
        self.messages = [
@@ -476,10 +475,6 @@ class chatbot:
    def create_context(
        self, question, df, max_len=1800, size="ada"
    ):
-       """
-       Create a context for a question by finding the most similar context from the dataframe
-       """
-
        sources = []
        #Get the embeddings for the question
        q_embeddings = openai.Embedding.create(input=question, engine='text-embedding-ada-002')['data'][0]['embedding']
@@ -489,7 +484,6 @@ class chatbot:
        cur_len = 0
 
        #Sort by distance and add the text to the context until the context is too long
-
        for i, row in df.sort_values('distances', ascending=True).iterrows():
            #Add the length of the text to the current length
            cur_len += row['n_tokens'] + 4
@@ -611,7 +605,10 @@ except Exception as e:
    print("An error occurred while generating questions:", e)
 ```
 >Output: With an engineering degree, you can pursue various career paths depending on your specialization. Some potential careers include application developer, computer programmer, software architect, software developer, computer system analyst, director of engineering, engineering administrator, engineering project manager, systems and software manager, strategic technology developer, and more. These careers offer opportunities in industries such as software engineering, technology management, and sustainable engineering, among others.
->Related questions generated: 1. What are some specific job titles that someone with an engineering degree can pursue?\n2. Are there any industries or sectors that commonly hire individuals with an engineering degree?\n3. Can you provide examples of how an engineering degree can lead to a variety of career paths?
+
+>Related questions generated: 1. What are some specific job titles that someone with an engineering degree can pursue?
+>2. Are there any industries or sectors that commonly hire individuals with an engineering degree?
+>3. Can you provide examples of how an engineering degree can lead to a variety of career paths?
 
 #### 5. Test the set up
 
@@ -642,10 +639,15 @@ for question, url in zip(validation_qs, validation_urls):
 
 ```
 >Output (Pass/Fail status and answer to the questions):
+
 >Pass - No, the Sociology BS program does not have accreditation. 
+
 >Fail - The accrediting agency for the Leadership & Management, MLM program is AACSB (Association to Advance Collegiate Schools of Business). 
+
 >Pass - Experiential learning opportunities for the Complex Systems Science, MS program include the option for students to engage in research or related activities, typically in the form of a capstone project, under the guidance of a faculty mentor. These opportunities allow students to apply their knowledge and skills in practical settings and gain hands-on experience in complex systems science. 
+
 >Pass - An ideal candidate for the Social Entrepreneurship & Community Development Graduate Certificate is an individual who is currently working in or interested in working in any sort of community-facing role, seeking to be innovative in the creation or further development of programs. 
+
 >Pass - Yes, the Biomimicry Graduate Certificate program is eligible for course recommendations and quick enrolls. 
  
 ## Automated Tool Assessment Form Completion Project
@@ -657,7 +659,7 @@ My role was to write Python script(s) to answer questions on the provided tool a
 
 **Project status:** Small POC complete but could use some improvements (my internship came to an end before I could spend more time improving outputs and doing further testing). Output was available as a JSON and CSV for the team's review.
 
-###In depth project overview & process steps
+### In depth project overview & process steps
 
 #### 1. Scrape website of a tool, given the name of the site and the name of the tool 
 
@@ -747,7 +749,7 @@ This was very similar to how I set up vector embeddings in the second project I 
 
 #### 4. Set up RAG for the cleaned up texts & their vector embeddings
 
-I used a very similar set up for this project as I did for the second one. For this project I looked into adding HyDE (Hypothetical Document Embedding) as part of the process. By adding in HyDE, it is essentially asking the LLM to generate a document and adding it to the user query, and then creating vector embeddings from that instead of just the question. In this way, texts that are more relevant could rank higher as top results. For my small POC, I did not end up including the HyDE portion as part of the run, because I did not see better results when I added it in. This could use more experimentation, but my theory is that because it was looking for such specific information about the tool in question, the hypothetical document didn’t add enough relevant context.
+I used a very similar set up for this project as I did for the second one. For this project I looked into adding HyDE (Hypothetical Document Embedding) as part of the process. By adding in HyDE, it is essentially asking the LLM to generate a document answering the user's query before retrieving and ranking the sources, and add that hypothetical document to the user query. I then create vector embeddings from that addition to the query, instead of just the original query alone. In this way, texts that are more relevant could rank higher as top results. For my small POC, I did not end up including the HyDE portion as part of the run, because I did not see better results when I added it in. This could use more experimentation, but my theory is that because it was looking for such specific information about the tool in question, the hypothetical document didn’t add enough relevant context.
 
 _Code snippet including the chatbot class for setting up RAG, including HyDE:_
 ```python
@@ -952,6 +954,9 @@ The output was saved in both a CSV and JSON object. After analyzing the output, 
 
 _Some sample output:_
 >Question: What is the license pricing structure of AI Chatbot?
+
 >Response: The license pricing structure for the AI Chatbot offered by Sendbird consists of multiple plans, including a free trial, Starter Plan at $99/month, Pro Plan at $499/month, and an Enterprise Plan with custom pricing. The plans vary in features and message credits, with the option to scale based on the number of AI chatbots and message credits needed per month. Additionally, there are overage fees for exceeding the allocated message credits.
+
 >Question: Briefly describe the tool AI Chatbot and its functionality.
+
 >Answer: The AI Chatbot tool provided by Sendbird allows users to build a custom GPT (Generative Pre-trained Transformer) on their website and mobile apps to automate engagement, marketing, sales, and support with conversational AI. Users can tailor customer interactions using first-party data to deliver unparalleled AI customer service. The AI chatbot platform enables the creation of highly customized chatbots with no code directly from the Sendbird dashboard. It can be utilized for various purposes like lead generation, shopping assistance, customer service, legal assistance, recruiting, and healthcare. The features of the tool include a chatbot widget builder, widget theming, chatbot profile customization, white labeling, message streaming, typing indicator, user feedback, and integration with various AI knowledge sources. This tool aims to enhance customer satisfaction, increase efficiency, and improve customer support experiences by handling incoming requests effectively and reducing resolution times.
