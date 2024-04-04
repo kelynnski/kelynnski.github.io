@@ -604,9 +604,9 @@ try:
 except Exception as e:
    print("An error occurred while generating questions:", e)
 ```
->Output: With an engineering degree, you can pursue various career paths depending on your specialization. Some potential careers include application developer, computer programmer, software architect, software developer, computer system analyst, director of engineering, engineering administrator, engineering project manager, systems and software manager, strategic technology developer, and more. These careers offer opportunities in industries such as software engineering, technology management, and sustainable engineering, among others.
-
->Related questions generated: 1. What are some specific job titles that someone with an engineering degree can pursue?
+>Output: With an engineering degree, you can pursue various career paths depending on your specialization. Some potential careers include application developer, computer programmer, software architect, software developer, computer system analyst, director of engineering, engineering administrator, engineering project manager, systems and software manager, strategic technology developer, and more. These careers offer opportunities in industries such as software engineering, technology management, and sustainable engineering, among others.<br>
+>Related questions generated: <br>
+>1. What are some specific job titles that someone with an engineering degree can pursue?
 >2. Are there any industries or sectors that commonly hire individuals with an engineering degree?
 >3. Can you provide examples of how an engineering degree can lead to a variety of career paths?
 
