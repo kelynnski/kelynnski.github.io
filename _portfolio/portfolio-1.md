@@ -638,16 +638,11 @@ for question, url in zip(validation_qs, validation_urls):
    print(answer, sources)
 
 ```
->Output (Pass/Fail status and answer to the questions):
-
->Pass - No, the Sociology BS program does not have accreditation. 
-
->Fail - The accrediting agency for the Leadership & Management, MLM program is AACSB (Association to Advance Collegiate Schools of Business). 
-
->Pass - Experiential learning opportunities for the Complex Systems Science, MS program include the option for students to engage in research or related activities, typically in the form of a capstone project, under the guidance of a faculty mentor. These opportunities allow students to apply their knowledge and skills in practical settings and gain hands-on experience in complex systems science. 
-
->Pass - An ideal candidate for the Social Entrepreneurship & Community Development Graduate Certificate is an individual who is currently working in or interested in working in any sort of community-facing role, seeking to be innovative in the creation or further development of programs. 
-
+>Output (Pass/Fail status and answer to the questions):<br>
+>Pass - No, the Sociology BS program does not have accreditation.<br>
+>Fail - The accrediting agency for the Leadership & Management, MLM program is AACSB (Association to Advance Collegiate Schools of Business).<br>
+>Pass - Experiential learning opportunities for the Complex Systems Science, MS program include the option for students to engage in research or related activities, typically in the form of a capstone project, under the guidance of a faculty mentor. These opportunities allow students to apply their knowledge and skills in practical settings and gain hands-on experience in complex systems science.<br>
+>Pass - An ideal candidate for the Social Entrepreneurship & Community Development Graduate Certificate is an individual who is currently working in or interested in working in any sort of community-facing role, seeking to be innovative in the creation or further development of programs.<br>
 >Pass - Yes, the Biomimicry Graduate Certificate program is eligible for course recommendations and quick enrolls. 
  
 ## Automated Tool Assessment Form Completion Project
@@ -953,10 +948,7 @@ _Code snippet:_
 The output was saved in both a CSV and JSON object. After analyzing the output, I would readjust the prompting or other aspects of the project.
 
 _Some sample output:_
->Question: What is the license pricing structure of AI Chatbot?
-
->Response: The license pricing structure for the AI Chatbot offered by Sendbird consists of multiple plans, including a free trial, Starter Plan at $99/month, Pro Plan at $499/month, and an Enterprise Plan with custom pricing. The plans vary in features and message credits, with the option to scale based on the number of AI chatbots and message credits needed per month. Additionally, there are overage fees for exceeding the allocated message credits.
-
->Question: Briefly describe the tool AI Chatbot and its functionality.
-
+>Question: What is the license pricing structure of AI Chatbot?<br>
+>Response: The license pricing structure for the AI Chatbot offered by Sendbird consists of multiple plans, including a free trial, Starter Plan at $99/month, Pro Plan at $499/month, and an Enterprise Plan with custom pricing. The plans vary in features and message credits, with the option to scale based on the number of AI chatbots and message credits needed per month. Additionally, there are overage fees for exceeding the allocated message credits.<br>
+>Question: Briefly describe the tool AI Chatbot and its functionality.<br>
 >Answer: The AI Chatbot tool provided by Sendbird allows users to build a custom GPT (Generative Pre-trained Transformer) on their website and mobile apps to automate engagement, marketing, sales, and support with conversational AI. Users can tailor customer interactions using first-party data to deliver unparalleled AI customer service. The AI chatbot platform enables the creation of highly customized chatbots with no code directly from the Sendbird dashboard. It can be utilized for various purposes like lead generation, shopping assistance, customer service, legal assistance, recruiting, and healthcare. The features of the tool include a chatbot widget builder, widget theming, chatbot profile customization, white labeling, message streaming, typing indicator, user feedback, and integration with various AI knowledge sources. This tool aims to enhance customer satisfaction, increase efficiency, and improve customer support experiences by handling incoming requests effectively and reducing resolution times.
