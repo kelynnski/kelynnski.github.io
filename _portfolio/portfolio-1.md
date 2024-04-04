@@ -1,6 +1,10 @@
 ---
-title: "Your HLT Internship (with a much more explanatory title)"
-excerpt: "Short description of the goals and content of your internship<br/><img src='/images/500x300.png'>"
+title: "Machine Learning Engineer Internship @ EdPlus at ASU"
+excerpt: "I had the unique opportunity to intern with EdPlus at ASU’s Artificial Intelligence Product Department (AIPD) team, as part of both my professional development and part of the UA HLT MS program. EdPlus’s AIPD is a small unit at the university that works with cutting edge technologies, and develops various applications and tools to enhance student journeys from start to finish. During my internship, ASU announced its partnership with OpenAI, and I gained expertise in working with Python’s openai library in particular as part of this learning experience.
+
+The internship allowed me to develop my programming skills in a practical way, where I often had to learn how to accomplish small tasks as part of the bigger project as I moved along. A challenge I faced was having no experience with LLMs or OpenAI in particular at the start of the internship, but after getting to experiment, research, and use this library to produce valuable output, I now feel extremely confident with it. I found using OpenAI’s tools in Python can accomplish many NLP related tasks that I learned about in my program, such as tokenization (their ‘tiktoken’ library offers a free way to tokenize text), information retrieval and question answering (such as setting up RAG to answer questions from specific documents), information extraction and summarization (extracting relevant information from longer texts), creating vector embeddings for text, and more. Where the LLM sometimes fell short, I was able to leverage libraries like nltk that I already had exposure to and experience with through my HLT program.
+
+Please see the internship page for detailed information about the projects I worked on during my internship."
 collection: portfolio
 ---
 
