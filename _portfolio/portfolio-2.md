@@ -13,9 +13,9 @@ collection: portfolio
 _Main Python toolkits used: pandas, numpy, torch, sklearn, nltk_
 
 ### Project Overview
-For this project, I used Python to develop a Natural Language Processing (NLP) system aimed at sentiment analysis, specifically targeting Yelp reviews. The Yelp reviews I used for the project are available publicly at this location: https://www.yelp.com/dataset/download
+For this project, I used Python to develop a Natural Language Processing (NLP) system aimed at sentiment analysis, specifically targeting Yelp reviews. The Yelp reviews I used for the project are available publicly at this location: [Yelp dataset](https://www.yelp.com/dataset/download)
 
-The code is available on my GitHub, located here: ---
+The code is available on my GitHub, located here: [GitHub respository](https://github.com/kelynnski/sentiment-analysis)
 
 The primary goal of this project was to classify Yelp reviews into three sentiment categories: negative, neutral, and positive. This objective aligns with a common use case in NLP, which is understanding user sentiment from text data, which is valuable for both businesses and researchers. In this case it’s a common business need—understanding what their customers think about their product or service. I believe this is an important part of business, because in order to improve (and therefore gain more revenue), this feedback is crucial and can lead to data-driven decisions about how to implement changes or which changes to implement.
 My project was designed to be flexible in handling large datasets, applying NLP techniques to preprocess text, and employing machine learning algorithms for classification, resulting in a system that would be beneficial for any business that collects user reviews.
