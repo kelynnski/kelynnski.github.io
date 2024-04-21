@@ -1,42 +1,152 @@
 ---
-title: "Sentiment Analysis Using PyTorch Project"
+title: "Retrieval-Augmented Generation (RAG) for EdPlus Guru Data Project"
 excerpt: |
-  This was an open-ended project assigned as part of my Master of Science (Human Language Technology) program, in the class Advanced Statistical Natural Language Processing. It had the goal of experimenting with and learning about neural networks. The task I chose was to investigate doing a sentiment analysis on a real-world dataset that I found online. I chose this task because sentiment analysis is an important NLP task, since it can help companies understand what their customers are saying about them, and where they can make improvements. 
-
-  The basic goal of the project was that if the model reads in some text, it will be able to predict the negative, neutral, or positive sentiment. While this is focused on a particular dataset I found on Yelp, the basic architecture I developed could be used on other datasets as well (with additional testing and adjustments to the model based on different styles of texts).
-
-  Please see the Sentiment Analysis Using PyTorch page for detailed information about this project.
+  This was a project I worked on as part of my internship at EdPlus at ASU. The task in this project was to set up a RAG system to handle ASU Online data that lives in Guru that the Success and Enrollment Coaches use, so that they could ask questions and get answers. The main NLP tasks this project relates to is Question/Answering and information retrieval, and I was able to use Python's openai library to accomplish much of it.
 
 collection: portfolio
 ---
 
-_Main Python toolkits used: pandas, numpy, torch, sklearn, nltk_
 
-### Project Overview
-For this project, I used Python to develop a Natural Language Processing (NLP) system aimed at sentiment analysis, specifically targeting Yelp reviews. The Yelp reviews I used for the project are available publicly at this location: [Yelp dataset](https://www.yelp.com/dataset/download)
+## Create Retrieval-Augmented Generation (RAG) for EdPlus Guru Data Project
 
-The code is available on my GitHub, located here: [GitHub respository](https://github.com/kelynnski/sentiment-analysis)
+_Main Python toolkits used: pandas, openai, tiktoken, re, BeautifulSoup_
 
-The primary goal of this project was to classify Yelp reviews into three sentiment categories: negative, neutral, and positive. This objective aligns with a common use case in NLP, which is understanding user sentiment from text data, which is valuable for both businesses and researchers. In this case it’s a common business need—understanding what their customers think about their product or service. I believe this is an important part of business, because in order to improve (and therefore gain more revenue), this feedback is crucial and can lead to data-driven decisions about how to implement changes or which changes to implement.
-My project was designed to be flexible in handling large datasets, applying NLP techniques to preprocess text, and employing machine learning algorithms for classification, resulting in a system that would be beneficial for any business that collects user reviews.
+**High level project context:** EdPlus employees at the call center often get asked questions by students, that they have to dig through many pages of data on a Guru repository to find answers to. The university requested that we use AI to enable the employees to find answers to these questions when they come up, where the answers are based on actual university data. Additionally, they requested that the eventual application should also suggest related questions in case those were helpful to the student.
 
-### Approach
+My role was mainly to upskill and learn about RAG. I wrote Python scripts that used ASU Guru data to set up a RAG system that could help call center employees get answers to questions students have, that currently lives in Guru. My involvement in this project was intended to get a larger scale project started as a _very_ small POC so I could upskill, before the project got transferred as part of a larger university initative that involved additional development teams outside of EdPlus to take the lead on (while still working with the lead developer(s) on the AIPD team).
 
-The Yelp review dataset consisted of raw JSON files. It included information such as a customer ID, the text review, and a star rating between 1-5 for restaurant reviews (among some other data points I did not leverage for this project). You can find the link to Yelp's dataset here: 'https://www.yelp.com/dataset/download'. The data was structured so that it included a star rating between 1-5 stars, and I converted these star ratings into a different system, where the 1-2 stars were changed to negative (class 0), 3 stars were neutral (class 1), and 4-5 stars were considered positive (class 2). This step was crucial for transforming subjective sentiment into a quantifiable format for machine learning models.
+**Project status:** Mini POC (proof of concept) completed; Example output was available in a Python notebook that I handed off to the team. This project did not have a real front end at the time I finished working on it.
 
-Since the original dataset was so large, I implemented a chunking method to handle and process the data without overwhelming my machine. I included an easy way to adjust this, so on a machine that could handle more, the chunk sizes could be set to a larger number, and the amount of data to train on could be adjusted. I personally only used 20,000 rows of data, 4,000 of which I set aside to be the fake test data set. Of the random 16,000 rows of data I extracted, 11,240 were positive reviews, 2,962 were negative, and only 1,799 were neutral. This meant I was working with an imbalanced dataset, with way more positive reviews. This was partially due to only including 3-star ratings as neutral while including 1-2 as negative and 4-5 as positive, but even without this simplification, the positive reviews were still a much higher count than neutral/negative. This imbalance became a challenge I faced in this project.
-Another challenge that I noticed was that due to the nature of a ton of different people writing reviews, the writing styles were all very different and included many typos and strange formatting. The data was not clean in this way; however, at least the dataset was clean in that there were no null values in the text or the labels provided.
+### In depth project overview & process steps
+ 
+#### 1. Read in JSON data from Guru cards & clean data
 
-After getting the dataset to a size that I wanted to work with, it was time to clean up and preprocess the review texts. I preprocessed the text by removing stopwords, normalizing text to lowercase, and applying a custom function to extract features. These functions utilized the nltk library's Sentiment Intensity Analyzer (which is a pre-built sentiment analysis library) to calculate compound sentiment scores, adding a layer of sentiment-based feature engineering to the project. I tried some other stylometric features but they did not give a large boost to the validation and hold out accuracy and other metrics like F1-score.
+My coworker provided me with a compressed folder with JSON files he’d created from the data on Guru. The content he extracted from each page was still in html format, so the first step was to remove the html tags and do some general clean up on the text. I used python’s BeautifulSoup library to accomplish this. I tried to preserve some formatting such as trying to make it clear when any data was in a table format. 
 
-For vectorization, I used a combination of character and word n-gram features through sklearn’s TfidfVectorizer, which were later unified using sklearn’s FeatureUnion. I did experiment using only character n-grams and only word n-grams, but my tests shows the union of both was promising, and resulted in better outcomes in comparison to a bag-of-words approach that I also experimented with in the early stages of the project.
+_Snippet of part of the data cleaning script:_
+```python
+#Function to remove html tags from the 'content' in the JSON data
+def remove_html_tags(html_content):
+   soup = BeautifulSoup(html_content, 'lxml')
 
-For the actual neural network and training portion of the project, I implemented PyTorch, a popular deep learning library. I developed a sentiment classifier class, which consisted of a FeedForward Neural Network with fully connected layers, activation functions, and a final output layer designed to classify the input into one of the three sentiment categories. I experimented with elements such as the hyperparameters, the number of layers, and the class weights. Ultimately, I went with two layers and the ReLU function, and did not end up adding weights to the underrepresented classes, since it did not seem to improve the performance and F1-scores actually went down.
+   #Links
+   for a in soup.find_all('a'):
+       link_text = a.get_text(strip=True)
+       url = a.get('href', '')
+       if link_text and url and link_text != url:
+           a.replace_with(f' {link_text} ({url}) ')
+       else:
+           a.replace_with(f' {url} ')
 
-I was able to keep track of my model's performance by splitting the training set into a main train set, a validation set, and a hold-out set. I added an early stop check during the evaluation, so that if the loss did not decrease, it would break out of the training loop early to prevent overfitting.
+   #Lists
+   for ul in soup.find_all(['ul', 'ol']):
+       for li in ul.find_all('li'):
+           li.replace_with(f' - {li.get_text(strip=True)}')
+       ul.replace_with('' + ul.get_text())
 
-### Results
+   #Headers
+   for header in soup.find_all(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']):
+       content = ['' + header.get_text(strip=True) + '']
+       next_node = header.find_next_sibling()
+       while next_node and not next_node.name in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
+           if next_node.name in ['p', 'div', 'details']:
+               text = next_node.get_text(separator='', strip=True)
+               if text:
+                   content.append(text)
+           next_node = next_node.find_next_sibling()
 
-Overall my model ended up performing well, with my classification report showing an accuracy of roughly 92.3% for the validation set, and 91% on the hold-out set. The F1-scores were also pretty high. For the validation set, class 0 was .9, class 1 was .73, and class 2 .96. For the hold-out set, class 0 was .89, class 1 .67 (the lowest), and class 2 .95. This meant the positive class (2) was the highest, and class 1 (neutral) struggled the most. This makes sense as it was the most underrepresented class.
+       #header.replace_with(''.join(content))
 
-When reviewing where my model struggled with the most, it made the most errors on the true neutral class. On the validation set, it misclassified a total of 65 items, mainly over-predicting positive (46 were classified as positive and 19 as negative). (The total number of misclassifications was 160). On the hold-out set, it also showed the most misclassifications in the true neutral set. It misclassified 172 items as positive when they should have been neutral, with 55 negative (the total misclassifications was 504).
+   #Extract text
+   text_only = soup.get_text(separator='\n', strip=True)
+   return text_only
+```
+
+#### 2. Generate vector embeddings (using OpenAI) for the cleaned up text
+
+Once I was happy with the cleaned up content text, I used that text to generate vector embeddings using OpenAI. The vector embeddings were added to a pandas df with the other data from the JSON objects.
+
+_Code snippet:_
+```python
+#Function to get openAI embeddings
+def get_embeddings(text):
+   response = openai.Embedding.create(
+       model = "text-embedding-ada-002",
+       input = [text]
+   )
+   embedding = response["data"][0]["embedding"]
+   return embedding
+
+#Function to generate embeddings for all items in the data
+def generate_embeddings(all_data):
+   for index, item in enumerate(all_data):
+       try:
+           embedding = get_embeddings(item['all_content'])
+           item['embedding'] = embedding
+       except Exception as e:
+          #Limiting content display to first 100 characters
+           print(f"Error occurred at index {index} with content: {item['all_content'][:100]}")  
+           print("Error details:", e)
+           error_list.append(index)
+```
+
+#### 3. Set up RAG for the cleaned up texts & their vector embeddings
+
+This was the most crucial step for this project, and was a technique I had not learned about in my HLT program (but it’s extremely useful and quite relevant in the industry today). RAG allows for an LLM that was not trained on specific data to add that data to the LLM, so that it can answer questions about something catered to a specific company (or whatever data you provide it). Learning about RAG was the biggest reason I was instructed to take this project on. The code works by generating vector embeddings for any query, and then grabbing the text chunks that are closest to it based on the cosine similarity between that query’s embedding and the embeddings it generated for each text (in this case the Guru text data). In this way the AI can provide tailored responses based on information it would otherwise not ‘know’, since it wasn’t trained on that data.
+
+You can view the chatbot used for this step on my [Chatbot Samples GitHub Repository](https://github.com/kelynnski/chatbot-samples/blob/main/rag_chatbot.py).
+
+#### 4. Send some questions to the AI (any question) for testing
+
+The next step was to write up some example questions to show the output. In addition to answering the question, I also programmed the small app to send back three related questions for every question the user asked (code snippet is in the link above, in the function ‘generate_questions()’). The output was pretty accurate. This project did not end up getting used in any real ASU application as of this point, but it was an excellent learning experience where I gained insights into data cleaning and got to use openai’s vector embedding generation (and of course, RAG in general).
+
+_Some example snippets of the output with questions in a Python notebook:_
+```python
+employee.answer_question("What types of careers can I have with an engineering degree?", debug=True)
+try:
+   related_questions, history = employee.generate_questions()
+   print("Related Questions:", related_questions)
+   print("Conversation History:", history)
+except Exception as e:
+   print("An error occurred while generating questions:", e)
+```
+>Output: With an engineering degree, you can pursue various career paths depending on your specialization. Some potential careers include application developer, computer programmer, software architect, software developer, computer system analyst, director of engineering, engineering administrator, engineering project manager, systems and software manager, strategic technology developer, and more. These careers offer opportunities in industries such as software engineering, technology management, and sustainable engineering, among others.<br>
+>Related questions generated: <br>
+>1. What are some specific job titles that someone with an engineering degree can pursue?
+>2. Are there any industries or sectors that commonly hire individuals with an engineering degree?
+>3. Can you provide examples of how an engineering degree can lead to a variety of career paths?
+
+#### 5. Test the set up
+
+One of the challenges with RAG is figuring out how best to see how well it is performing. A solution I used was to prepare specific validation questions with the best matches manually identified, and see if it was using those matches as the source. Out of 5 example questions, 4 of the 5 included the best match in the top two closest results.
+
+_Some example validation questions and answers:_
+```python
+validation_qs = ["Does the Sociology BS program have accreditation?", "Who is the accrediting agency for the Leadership & Management, MLM program?",
+               "Describe the experiential learning opportunities (clinicals, internship, practicum, research, student teaching, etc. for the Complex Systems Science, MS program.",
+                "What kind of work is an ideal candidate doing for the Social Entrepreneurship & Community Development Graduate Certificate?",
+               "Is the Biomimicry Graduate Certificate program eligible for course recommendations and quick enrolls?"]
+validation_cards = ['card_2143', 'card_48', 'card_832', 'card_680', 'card_0']
+validation_urls = ['https://app.getguru.com/card/TodBgxBc/Accreditation-Internships-Licensure-Sociology-BS',
+                 'https://app.getguru.com/card/cEgK6rgi/Accreditation-Internships-Licensure-State-Restrictions-Leadership-Management-MLM',
+                 'https://app.getguru.com/card/iX4RzqqT/Accreditation-Internships-Licensure-Complex-Systems-Science-MS',
+                 'https://app.getguru.com/card/i7ppGnoT/Program-Overview-Social-Entrepreneurship-Community-Development-Graduate-Certificate-',
+                 'https://app.getguru.com/card/c46oeari/Course-Information-Biomimicry-Graduate-Certificate']
+
+count = 0
+for question, url in zip(validation_qs, validation_urls):
+   answer, sources = employee.answer_question(question, debug=False)
+   if len(sources) >= 2:
+       if sources[0][0] == url or sources[1][0] == url:
+           print("Pass")
+       else:
+           print("Fail")
+   print(answer, sources)
+
+```
+>Output (Pass/Fail status and answer to the questions):<br>
+>Pass - No, the Sociology BS program does not have accreditation.<br>
+>Fail - The accrediting agency for the Leadership & Management, MLM program is AACSB (Association to Advance Collegiate Schools of Business).<br>
+>Pass - Experiential learning opportunities for the Complex Systems Science, MS program include the option for students to engage in research or related activities, typically in the form of a capstone project, under the guidance of a faculty mentor. These opportunities allow students to apply their knowledge and skills in practical settings and gain hands-on experience in complex systems science.<br>
+>Pass - An ideal candidate for the Social Entrepreneurship & Community Development Graduate Certificate is an individual who is currently working in or interested in working in any sort of community-facing role, seeking to be innovative in the creation or further development of programs.<br>
+>Pass - Yes, the Biomimicry Graduate Certificate program is eligible for course recommendations and quick enrolls. 
