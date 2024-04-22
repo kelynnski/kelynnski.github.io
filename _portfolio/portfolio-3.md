@@ -44,7 +44,8 @@ I grabbed questions from the template and experimented with rephrasing them to t
 _Code snippet:_
 ```python
     name_of_tool = 'Harmonize'
-    validation_qs = [f'What is the license pricing structure of {name_of_tool}?', f'Briefly describe the tool {name_of_tool} and its functionality.',
+    validation_qs = [f'What is the license pricing structure of {name_of_tool}?',
+                    f'Briefly describe the tool {name_of_tool} and its functionality.',
                     f'Describe the educational value the tool {name_of_tool} might provide to students, if a university were to leverage it.',
                     f'List competitors to the tool {name_of_tool}.',
                     f'What would potential justification be for a university adopting {name_of_tool}?',
