@@ -1,14 +1,14 @@
 ---
 title: "Automated Tool Assessment Project"
 excerpt: |
-  This was a project I worked on as part of my internship at EdPlus at ASU. The task in this project was to use AI to fill out a "Tool Assessment" form that currently needs to be filled out manually. I was able to accompish this using web scraping, setting up RAG, and using Python's openai library to generate the answers to the questions in the form. The main NLP tasks this project relates to is Question/Answering and information retrieval.
+  This was a project I worked on as part of my internship at EdPlus at ASU. The task in this project was to use AI to fill out a "Tool Assessment" form that currently needs to be filled out manually. I was able to accomplish this using web scraping, setting up RAG, and using Python's openai library to generate the answers to the questions in the form. The main NLP tasks this project relates to is question/answering and information retrieval.
 
 collection: portfolio
 ---
- 
-## Automated Tool Assessment Form Completion Project
+
 _Main Python toolkits used: pandas, openai, tiktoken, re, BeautifulSoup, HTMLParser_
 
+### Summary
 **High level project context:** EdPlus employees have a tool assessment form that they fill out when validating whether a new tool should be adopted to the university or not. This takes up time while they go through the software’s website and answer many questions. Thus, I was asked to develop a very small POC to see if we could get this automated using AI. My role was to write Python script(s) to answer questions on the provided tool assessment template, by setting up RAG and using information scraped from theoretically any tool’s website.
 
 **Project status:** Small POC complete but could use some improvements (my internship came to an end before I could spend more time improving outputs and doing further testing). Output was available as a JSON and CSV for the team's review.

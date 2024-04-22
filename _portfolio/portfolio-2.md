@@ -1,16 +1,14 @@
 ---
 title: "Retrieval-Augmented Generation (RAG) for EdPlus Guru Data Project"
 excerpt: |
-  This was a project I worked on as part of my internship at EdPlus at ASU. The task in this project was to set up a RAG system to handle ASU Online data that lives in Guru that the Success and Enrollment Coaches use, so that they could ask questions and get answers. The main NLP tasks this project relates to is Question/Answering and information retrieval, and I was able to use Python's openai library to accomplish much of it.
+  This was a project I worked on as part of my internship at EdPlus at ASU. The task in this project was to set up a RAG system to handle ASU Online data that lives in Guru that the Success and Enrollment Coaches use, so that they could ask questions and get answers. The main NLP tasks this project relates to is question/answering and information retrieval, and I was able to use Python's openai library to accomplish much of it.
 
 collection: portfolio
 ---
 
-
-## Create Retrieval-Augmented Generation (RAG) for EdPlus Guru Data Project
-
 _Main Python toolkits used: pandas, openai, tiktoken, re, BeautifulSoup_
 
+### Summary
 **High level project context:** EdPlus employees at the call center often get asked questions by students, that they have to dig through many pages of data on a Guru repository to find answers to. The university requested that we use AI to enable the employees to find answers to these questions when they come up, where the answers are based on actual university data. Additionally, they requested that the eventual application should also suggest related questions in case those were helpful to the student.
 
 My role was mainly to upskill and learn about RAG. I wrote Python scripts that used ASU Guru data to set up a RAG system that could help call center employees get answers to questions students have, that currently lives in Guru. My involvement in this project was intended to get a larger scale project started as a _very_ small POC so I could upskill, before the project got transferred as part of a larger university initative that involved additional development teams outside of EdPlus to take the lead on (while still working with the lead developer(s) on the AIPD team).

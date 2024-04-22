@@ -3,8 +3,6 @@ title: "Sentiment Analysis Using PyTorch Project"
 excerpt: |
   This was an open-ended project assigned as part of my Master of Science (Human Language Technology) program, in the class Advanced Statistical Natural Language Processing. It had the goal of experimenting with and learning about neural networks. The task I chose was to investigate doing a sentiment analysis on a real-world dataset that I found online. I chose this task because sentiment analysis is an important NLP task, since it can help companies understand what their customers are saying about them, and where they can make improvements. 
 
-  Please see the Sentiment Analysis Using PyTorch page for detailed information about this project.
-
 collection: portfolio
 ---
 
@@ -51,11 +49,13 @@ I was able to keep track of my model's performance by splitting the training set
 Overall my model ended up performing well, with my classification report showing an accuracy of roughly 92.4% for the validation set, and 91% on the hold-out set. The F1-scores were also pretty high. For the validation set, class 0 was .9, class 1 was .74, and class 2 .97. For the hold-out set, class 0 was .89, class 1 .68 (the lowest), and class 2 .95. This meant the positive class (2) was the highest, and class 1 (neutral) struggled the most. This makes sense as it was the most underrepresented class.
 
 ### F1 Scores on Validation Set
+
 | Class 2 (Positive) | Class 1 (Neutral) | Class 0 (Negative) |
 |--------------------|-------------------|--------------------|
 | .97                | .74               | .9                 |
 
 ### F1 Scores on Hold-Out Set
+
 | Class 2 (Positive) | Class 1 (Neutral) | Class 0 (Negative) |
 |--------------------|-------------------|--------------------|
 | .95                | .68               | .89                |

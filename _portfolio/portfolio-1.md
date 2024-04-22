@@ -7,11 +7,10 @@ excerpt: |
 collection: portfolio
 ---
 
-## Course Description Project
-
 _Main Python toolkits used: pandas, openai, re, nltk, pdfminer, tiktoken_
 
-**High level project context & challenges:** The goal was to be able to use existing course syllabi, and then use those syllabi to somehow generate new course descriptions based on the information in the syllabi. My role was to write Python scripts that use openAI’s APIs to generate course descriptions and other course information, based on the provided syllabi. At the start of this project, this was a personal challenge because of my lack of experience with LLMs or the Python openai library. However, it was a pefect opportunity for me to learn and grow through research and experimentation as I worked through the project.
+### Summary
+**High level project context:** The goal was to be able to use existing course syllabi, and then use those syllabi to somehow generate new course descriptions based on the information in the syllabi. My role was to write Python scripts that use OpenAI’s APIs to generate course descriptions and other course information, based on the provided syllabi. At the start of this project, this was a personal challenge because of my lack of experience with LLMs or the Python openai library. However, it was a perfect opportunity for me to learn and grow through research and experimentation as I worked through the project.
 
 **Project status:** The project was intended as a POC (proof of concept). By the end of the project the POC was completed, and the course descriptions are available on this site: https://courses.asuonline.asu.edu/
 
@@ -21,7 +20,7 @@ _Main Python toolkits used: pandas, openai, re, nltk, pdfminer, tiktoken_
 
 I was given a link to a dropbox that contained a mess of syllabi provided by numerous ASU colleges. Most of the syllabi were PDF files, so the first challenge was to find a convenient way to extract the text from the PDFs (which after doing some quick research I found a solution in the Python library pdfminer).
 
-_Extracting pdf snippet:_
+_Extracting pdf text snippet:_
 ```python
 #Extract text from PDFS. Re-written to accommodate weird issue with some PDFs
 #not being extracted with extract_pages().
@@ -280,7 +279,7 @@ def check_sentences(text):
 
 I also needed to regenerate the description based on the rules coded above.
 
-_Regenerate the description snippet_
+_Regenerate the description snippet:_
 ```python
 def check_and_generate(df):
    #Add columns for regenerated descriptions if they don't exist
@@ -290,7 +289,8 @@ def check_and_generate(df):
        df['Regenerated Course Description 2'] = None
    if 'Final Course Description' not in df.columns:
        df['Final Course Description'] = df['New Course Description 2']
-   if 'Flagged' not in df.columns: #Flagged means it failed the verb check for a 3rd time and needs to be manually reviewed to remove CTA type phrases
+   if 'Flagged' not in df.columns: #Flagged means it failed the verb check for a 3rd time
+       #and needs to be manually reviewed to remove CTA type phrases
        df['Flagged'] = 'False'
    #print(test)
    total_count = 0 #count to see how many need to be regenerated
@@ -300,19 +300,23 @@ def check_and_generate(df):
    for index, row in df.iterrows():
        text = row['New Course Description 2']
        check = check_sentences(text)
-       if check: #If there is a verb at the start of a sentence in the description or length is too long
+       if check: #If there is a verb at the start of a sentence in the description or 
+           #length is too long
            total_count += 1
-           regen_testing_list = [] #list for being able to add the regenerated descriptions to the dataframe
+           regen_testing_list = [] #list for being able to add the regenerated
+           #descriptions to the dataframe
 
            regen_count = 0
-           while regen_count < 3 and check: #We do not want to regenerate descriptions more than two times.
+           while regen_count < 3 and check: #We do not want to regenerate descriptions
+           #more than two times.
                new_description = regenerate_description(text)
                remove_commas = punctuation_updates(new_description[0])
                regen_count += 1
                regen_testing_list.append(remove_commas)
                check = check_sentences(remove_commas)
 
-           if regen_testing_list == 2: #If we already regenerated the description two times, then flag it for manual review.
+           if regen_testing_list == 2: #If we already regenerated the description two
+            #times, then flag it for manual review.
                flag = check_sentences(regen_testing_list[1])
                if flag:
                    df.loc[index, 'Flagged'] = 'True'
@@ -335,4 +339,4 @@ Finally, the final output was saved. The JSON object could be used to feed into 
 
 #### 8. Manual reviewing process
 
-For each generation step, there was a lot of manual review and alalysis involved. I spent a lot of time going over the output in each step, from the initial PDF scraping to ensure that the texts were properly scraped, to reviewing the information the AI considered 'relevant' in the information extraction step, and to every course description it gave as output. Throughout the process the different steps were saved in CSVs so I could conveniently compare the results, make notes on what improved (or worsened) with each change to prompts and parameter adjustments, and then try again. In this way I learned which little tweaks to the prompts (prompt engineering) made huge differences, when trying to cram too much into one prompt resulted in less optimal text generations, and the value of creating a 'fake' conversation history with example responses that made it so the output was more uniform and resembled what we were looking for. Given the nature of the trying to generate course descriptions and what counted as a 'good' course description, a lot of it was quite subjective, and sometimes when I found the course descriptions to be satisfactory, the content team reviewing the output would not like how the AI phrased something (which guided much of the hard coded rules and checks I put in place). Because of this, the experimentation and multiple iterations of the manual review process were necessary.
+For each generation step, there was a lot of manual review and alalysis involved. I spent a lot of time going over the output in each step, from the initial PDF scraping to ensure that the texts were properly scraped, to reviewing the information the AI considered 'relevant' in the information extraction step, and to every course description it gave as output. Throughout the process the different steps were saved in CSVs so I could conveniently compare the results, make notes on what improved (or worsened) with each change to prompts and parameter adjustments, and then try again. In this way I learned which little tweaks to the prompts  made huge differences (gaining experience in prompt engineering), when trying to cram too much into one prompt resulted in less optimal text generations, and even the value of creating a 'fake' conversation history with example responses that made it so the output was more uniform and resembled what we were looking for. Given the nature of the trying to generate course descriptions and what counted as a 'good' course description, a lot of it was quite subjective, and sometimes when I found the course descriptions to be satisfactory, the content team reviewing the output would not like how the AI phrased something (which guided much of the hard coded rules and checks I put in place). Because of this, the experimentation and multiple iterations of the manual review process were necessary.
