@@ -23,17 +23,17 @@ The code is structured in that it uses BeautifulSoup, Comment, deque, HTMLParser
 
 #### 2. Use OpenAI API to clean up the scraped texts
 
-My experience from working on the [Course Description project](portfolio-1/) came in handy here. I found that using OpenAI to clean up the text in a similar fashion to how the relevant content extraction section of that project applied well to cleaning up the messy text. Normally I would have spent more time trying to have a clean output through BeautifulSoup or other similar Python library, but because the text was theoretically supposed to be scraped from any site, this worked as a generic approach to cleaning up text without seeing what that text looks like beforehand.
+My experience from working on the [Course Description project](../portfolio-1/) came in handy here. I found that using OpenAI to clean up the text in a similar fashion to how the relevant content extraction section of that project applied well to cleaning up the messy text. Normally I would have spent more time trying to have a clean output through BeautifulSoup or other similar Python library, but because the text was theoretically supposed to be scraped from any site, this worked as a generic approach to cleaning up text without seeing what that text looks like beforehand.
 
 You can view the chatbot used for this step on my [Chatbot Samples GitHub Repository](https://github.com/kelynnski/chatbot-samples/blob/main/relevent_text_chatbot.py).
 
 #### 3. Generate vector embeddings (using OpenAI) for the cleaned up text
 
-This was very similar to how I set up vector embeddings in my [RAG for Guru Data Project](portfolio-2/). I used OpenAI to generate vector embeddings in preparation for setting up RAG.
+This was very similar to how I set up vector embeddings in my [RAG for Guru Data Project](../portfolio-2/). I used OpenAI to generate vector embeddings in preparation for setting up RAG.
 
 #### 4. Set up RAG for the cleaned up texts & their vector embeddings
 
-I used a very similar set up for this project as I did for the [RAG for Guru Data Project](portfolio-2/). But for this project, I looked into adding HyDE (Hypothetical Document Embedding) as part of the process. By adding in HyDE, it is essentially asking the LLM to generate a document answering the user's query before retrieving and ranking the sources, and add that hypothetical document to the user query. I then create vector embeddings from that addition to the query, instead of just the original query alone. In this way, texts that are more relevant could rank higher as top results. For my small POC, I did not end up including the HyDE portion as part of the run, because I did not see better results when I added it in. This could use more experimentation, but my theory is that because it was looking for such specific information about the tool in question, the hypothetical document didn’t add enough relevant context.
+I used a very similar set up for this project as I did for the [RAG for Guru Data Project](../portfolio-2/). But for this project, I looked into adding HyDE (Hypothetical Document Embedding) as part of the process. By adding in HyDE, it is essentially asking the LLM to generate a document answering the user's query before retrieving and ranking the sources, and add that hypothetical document to the user query. I then create vector embeddings from that addition to the query, instead of just the original query alone. In this way, texts that are more relevant could rank higher as top results. For my small POC, I did not end up including the HyDE portion as part of the run, because I did not see better results when I added it in. This could use more experimentation, but my theory is that because it was looking for such specific information about the tool in question, the hypothetical document didn’t add enough relevant context.
 
 You can view the chatbot used for this step on my [Chatbot Samples GitHub Repository](https://github.com/kelynnski/chatbot-samples/blob/main/tool_assessment_chatbot.py).
 
